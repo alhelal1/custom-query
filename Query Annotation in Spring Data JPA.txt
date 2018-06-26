@@ -1,0 +1,50 @@
+https://javabeat.net/spring-data-jpa-query/
+A simple example snippet for using the query annotation.
+
+
+@Query Annotation
+Like Expressions
+How to use Native SQL Query
+Named Parameters using @Param
+SpEL Expressions
+Example Application
+Source Code
+Conclusion
+
+@Query(value = "select name,author,price from Book b where b.price>?1 and b.price<?2")
+List<Book> findByPriceRange(long price1, long price2);
+
+
+Like Expressions
+@Query(value = "select name,author,price from Book b where b.name like %:name%")
+List<Book> findByNameMatch(@Param("name") String name);
+
+Here is the example code for how to use the native SQL query in @Query annotation:
+
+@Query(value = "select * from #{#entityName} b where b.name=?1", nativeQuery = true)
+List<Book> findByName(String name);
+
+@Query(value = "select name,author,price from Book b where b.name = :name AND b.author=:author AND b.price=:price")
+List<Book> findByNamedParam(@Param("name") String name, @Param("author") String author,
+		@Param("price") long price);
+
+public interface BookQueryRepositoryExample extends Repository<Book, Long> {
+	@Query(value = "select * from Book b where b.name=?1", nativeQuery = true)
+	List<Book> findByName(String name);
+
+
+        How to use Native SQL Query
+	@Query(value = "select name,author,price from Book b where b.price>?1 and b.price<?2")
+	List<Book> findByPriceRange(long price1, long price2);
+
+
+        Named Parameters using @Param
+	@Query(value = "select name,author,price from Book b where b.name like %:name%")
+	List<Book> findByNameMatch(@Param("name") String name);
+
+        @Query Annotation Example Application
+	@Query(value = "select name,author,price from Book b where b.name = :name AND b.author=:author AND b.price=:price")
+	List<Book> findByNamedParam(@Param("name") String name, @Param("author") String author,
+			@Param("price") long price);
+
+}
